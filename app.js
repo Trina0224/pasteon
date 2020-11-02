@@ -101,16 +101,21 @@ app.get("/", function(req, res){
 
 });
 
+
+
 // Uploading the image
 app.post('/', upload.single('image'), (req, res, next) => {
 
     console.log(req.body); //You will not see img related data display here.
+    console.log(req.file.filename);
     let current= new Date().getTime();
-
+    let defaultOneTimeValue = "";
+    defaultOneTimeValue = req.body['oneTimeOnly'];
+    console.log(defaultOneTimeValue);
     var obj = {
         timeStamp: current,
         timePeriod: req.body.timePeriod,
-        oneTimeOnly: req.body.oneTimeOnly,
+        oneTimeOnly: defaultOneTimeValue,
         name: req.body.name,
         desc: req.body.desc,
         img: {
@@ -147,19 +152,6 @@ app.post("/compose", function(req, res){
   });
 });
 
-app.get("/posts/:postId", function(req, res){
-
-const requestedPostId = req.params.postId;
-
-  Post.findOne({_id: requestedPostId}, function(err, post){
-    res.render("post", {
-      title: post.title,
-      content: post.content
-    });
-  });
-
-});
-
 app.get("/about", function(req, res){
   res.render("about", {aboutContent: aboutContent});
 });
@@ -168,6 +160,76 @@ app.get("/contact", function(req, res){
   res.render("contact", {contactContent: contactContent});
 });
 
+
+app.get("/:postId", function(req, res){
+  //const requestedTitle = _.lowerCase(req.params.postName);
+  const requestedPostId = req.params.postId;
+
+    //Post.findOne({_id: requestedPostId}, function(err, post){
+    ImgModel.findOne({name: requestedPostId}, function(err, img){
+      console.log(err);
+      console.log(img.img.data!=="");//if it is not null, it means we have pic in this record.
+      console.log(img.hasOwnProperty('oneTimeOnly'));
+      console.log(img);
+      if(!err){
+        if(img.img.data!==""  && img.hasOwnProperty('oneTimeOnly')==false){
+          res.render("post", {
+            title: img.name,
+            content: img.desc,
+            image:img,
+            _id: img._id
+            });
+        }
+        else{
+            if(img.img.data!=="" && img.hasOwnProperty('oneTimeOnly')){
+            //has image, but need to remove this collection.
+            ImgModel.findByIdAndRemove(img._id, function(err) {
+              if (err) {
+                console.log(err);
+              } else {
+                res.render("post", {
+                  title: img.name,
+                  content: img.desc,
+                  image:img,
+                  _id: "This is one time reading. The record is removed."
+                  });
+              }
+            });
+          }else{//no image
+            if(img.oneTimeOnly == "oneTime"){
+              res.render("postNoImg", {
+                title: img.name,
+                content: img.desc,
+                _id: "This is one time reading. The record is removed."
+                });
+              ImgModel.findByIdAndRemove(img._id, function(err) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  ;
+                }
+              });
+            }
+            else{
+              res.render("postNoImg", {
+                title: img.name,
+                content: img.desc,
+                _id: img._id
+                });
+            }
+
+          }
+        }
+      }
+    })
+    .orFail(
+      function(){
+        // => new Error('Not Found')
+        res.render("error", {errorContent: errorContent});
+
+    });
+
+});
 
 app.listen(PORT, function(err) {
   if (err)

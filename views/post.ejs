@@ -1,10 +1,18 @@
-
 <%- include("partials/header"); -%>
 
+  <h1><%=title%></h1>
+  <p><%=content%></p>
+  <img src="data:image/<%=image.img.contentType%>;base64,
+       <%=image.img.data.toString('base64')%>">
 
-    <h1><%=title%></h1>
-    <p><%=content%></p>
 
+  <form class="" action="/remove" method="post">
+    <div class="form-group">
+      <label>If you want to remove this record, please input <%=_id%></label>
+      <textarea class="form-control" name="postBody" rows="1"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit" name="button">Forget this record</button>
+  </form>
 
 
 <%- include("partials/footer"); -%>

@@ -27,8 +27,14 @@
               </select>
             </div>
             <div>
+              <input type="hidden" id="gracePeriodCheck" name="oneTimeOnly" value="multiTimes" >
+              <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked >
               <label for="oneTimeOnly"> Remove it after Read.</label><br>
-              <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked>
+            </div>
+
+            <div>
+            	<input type="checkbox" id="switch1" name="switch1" class="switch" />
+            	<label for="switch1">first switch</label>
             </div>
 
             <div>
@@ -59,5 +65,6 @@
         </div>
         <% }) %>
     </div>
+
 
 <%- include("partials/footer"); -%>
