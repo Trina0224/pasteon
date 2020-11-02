@@ -7,16 +7,30 @@
     <div>
         <form action="/" method="POST" enctype="multipart/form-data">
             <div>
-                <label for="name">Image Title</label>
+                <label for="name">Link</label>
                 <input type="text" id="name" placeholder="Name"
                        value="" name="name" required>
             </div>
             <div>
-                <label for="desc">Image Description</label>
+                <label for="desc">Description</label>
                 <textarea id="desc" name="pesc" value="" rows="2"
                           placeholder="Description" required>
                 </textarea>
             </div>
+            <div >
+              <label for="timePeriod">Choose a grace-period</label>
+              <select name="timePeriod" id="gracePeriod">
+                <option value="oneMins">1 mins</option>
+                <option value="twoMins">2 mins</option>
+                <option value="fiveMins">5 mins</option>
+                <option value="twoDays">2 Days</option>
+              </select>
+            </div>
+            <div>
+              <label for="oneTimeOnly"> Remove it after Read.</label><br>
+              <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked>
+            </div>
+
             <div>
                 <label for="image">Upload Image</label>
                 <input type="file" id="image"

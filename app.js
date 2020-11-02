@@ -42,6 +42,11 @@ const imageSchema = new mongoose.Schema({
     type: String,
     required: [true,"timeStamp is required."]
   },
+  timePeriod: {
+    type: String,
+    required: [true, "time period field is required."]
+  },
+  oneTimeOnly: String,
   name: {
     type: String,
     required: [true, "title field is required."]
@@ -104,6 +109,8 @@ app.post('/', upload.single('image'), (req, res, next) => {
 
     var obj = {
         timeStamp: current,
+        timePeriod: req.body.timePeriod,
+        oneTimeOnly: req.body.oneTimeOnly,
         name: req.body.name,
         desc: req.body.desc,
         img: {
