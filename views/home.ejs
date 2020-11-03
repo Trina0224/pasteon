@@ -13,7 +13,7 @@
             </div>
             <div>
                 <label for="desc">Description</label>
-                <textarea id="desc" name="pesc" value="" rows="2"
+                <textarea id="desc" name="desc" value="" rows="2"
                           placeholder="Description" required>
                 </textarea>
             </div>
@@ -27,20 +27,20 @@
               </select>
             </div>
             <div>
-              <input type="hidden" id="gracePeriodCheck" name="oneTimeOnly" value="multiTimes" >
+              <input type="hidden" id="gracePeriodCheck" name="oneTimeOnly" value="nn" >
               <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked >
               <label for="oneTimeOnly"> Remove it after Read.</label><br>
             </div>
 
-            <div>
+            <!-- <div>
             	<input type="checkbox" id="switch1" name="switch1" class="switch" />
             	<label for="switch1">first switch</label>
-            </div>
+            </div> -->
 
             <div>
                 <label for="image">Upload Image</label>
                 <input type="file" id="image"
-                       name="image" value="" required>
+                       name="image" value="" >
             </div>
             <div>
                 <button type="submit">Submit</button>
@@ -58,8 +58,8 @@
                 <img src="data:image/<%=image.img.contentType%>;base64,
                      <%=image.img.data.toString('base64')%>">
                 <div>
-                    <h5><%= image.name %></h5>
-                    <p><%= image.desc %></p>
+                  <h5><%= image.name %></h5>
+                  <p><%= image.desc %></p>
                 </div>
             </div>
         </div>

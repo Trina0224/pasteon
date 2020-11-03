@@ -110,18 +110,29 @@ app.post('/', upload.single('image'), (req, res, next) => {
     console.log(req.file.filename);
     let current= new Date().getTime();
     let defaultOneTimeValue = "";
-    defaultOneTimeValue = req.body['oneTimeOnly'];
+//    defaultOneTimeValue = req.body['oneTimeOnly'];
+    defaultOneTimeValue = req.body.oneTimeOnly[1];//if checked, you will get oneTime, if no, get 'n'
     console.log(defaultOneTimeValue);
-    var obj = {
-        timeStamp: current,
-        timePeriod: req.body.timePeriod,
-        oneTimeOnly: defaultOneTimeValue,
-        name: req.body.name,
-        desc: req.body.desc,
-        img: {
-            data: fs.readFileSync(path.join(__dirname + '/public/img/' + req.file.filename)),
-            contentType: 'image/png'
-        }
+    if(req.file.filename){
+      var obj = {
+          timeStamp: current,
+          timePeriod: req.body.timePeriod,
+          oneTimeOnly: defaultOneTimeValue,
+          name: req.body.name,
+          desc: req.body.desc,
+          img: {
+              data: fs.readFileSync(path.join(__dirname + '/public/img/' + req.file.filename)),
+              contentType: 'image/png'
+          }
+      }
+    }else{
+      var obj = {
+          timeStamp: current,
+          timePeriod: req.body.timePeriod,
+          oneTimeOnly: defaultOneTimeValue,
+          name: req.body.name,
+          desc: req.body.desc
+      }
     }
     ImgModel.create(obj, (err, item) => {
         if (err) {
@@ -160,6 +171,19 @@ app.get("/contact", function(req, res){
   res.render("contact", {contactContent: contactContent});
 });
 
+app.post("/remove", function(req, res){
+  console.log(req.body.postBody);
+  ImgModel.findByIdAndRemove(req.body.postBody, function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/");
+    }
+  });
+
+});
+
+
 
 app.get("/:postId", function(req, res){
   //const requestedTitle = _.lowerCase(req.params.postName);
@@ -168,11 +192,11 @@ app.get("/:postId", function(req, res){
     //Post.findOne({_id: requestedPostId}, function(err, post){
     ImgModel.findOne({name: requestedPostId}, function(err, img){
       console.log(err);
-      console.log(img.img.data!=="");//if it is not null, it means we have pic in this record.
-      console.log(img.hasOwnProperty('oneTimeOnly'));
-      console.log(img);
-      if(!err){
-        if(img.img.data!==""  && img.hasOwnProperty('oneTimeOnly')==false){
+//      console.log(img.img.data!=="");//if it is not null, it means we have pic in this record.
+//      console.log(img.hasOwnProperty('oneTimeOnly'));
+//      console.log(img);
+      if(!err && img.length!==0){
+        if(img.img.data!==""  && img.oneTimeOnly=='n'){
           res.render("post", {
             title: img.name,
             content: img.desc,
@@ -181,7 +205,7 @@ app.get("/:postId", function(req, res){
             });
         }
         else{
-            if(img.img.data!=="" && img.hasOwnProperty('oneTimeOnly')){
+            if(img.img.data!=="" && img.oneTimeOnly=='oneTime'){
             //has image, but need to remove this collection.
             ImgModel.findByIdAndRemove(img._id, function(err) {
               if (err) {
