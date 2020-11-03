@@ -1,7 +1,7 @@
 
 <%- include("partials/header"); -%>
 
-     <h1>To Upload Image on mongoDB</h1>
+     <h1>Upload Text&Image on mongoDB</h1>
      <p> <%= startingContent %> </p>
     <hr>
     <div>
@@ -14,7 +14,7 @@
             <div>
                 <label for="desc">Description</label>
                 <textarea id="desc" name="desc" value="" rows="2"
-                          placeholder="Description" required>
+                           required>
                 </textarea>
             </div>
             <div >
@@ -38,7 +38,7 @@
             </div> -->
 
             <div>
-                <label for="image">Upload Image</label>
+                <label for="image">Upload Image (If you have)</label>
                 <input type="file" id="image"
                        name="image" value="" >
             </div>
@@ -55,8 +55,6 @@
         <% items.forEach(function(image) { %>
         <div>
             <div>
-                <img src="data:image/<%=image.img.contentType%>;base64,
-                     <%=image.img.data.toString('base64')%>">
                 <div>
                   <h5><%= image.name %></h5>
                   <p><%= image.desc %></p>

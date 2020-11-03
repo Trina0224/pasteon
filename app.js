@@ -106,14 +106,25 @@ app.get("/", function(req, res){
 // Uploading the image
 app.post('/', upload.single('image'), (req, res, next) => {
 
-    console.log(req.body); //You will not see img related data display here.
-    console.log(req.file.filename);
+//    console.log(req.body); //You will not see img related data display here.
+//    console.log(req.file.filename);//if it is existed is fine. but...
+    // if(typeof req.file === 'undefined'){
+    //   console.log("file is undefined.");
+    // }
     let current= new Date().getTime();
     let defaultOneTimeValue = "";
 //    defaultOneTimeValue = req.body['oneTimeOnly'];
     defaultOneTimeValue = req.body.oneTimeOnly[1];//if checked, you will get oneTime, if no, get 'n'
     console.log(defaultOneTimeValue);
-    if(req.file.filename){
+    if(typeof req.file === 'undefined'){
+      var obj = {
+          timeStamp: current,
+          timePeriod: req.body.timePeriod,
+          oneTimeOnly: defaultOneTimeValue,
+          name: req.body.name,
+          desc: req.body.desc
+      }
+    }else{
       var obj = {
           timeStamp: current,
           timePeriod: req.body.timePeriod,
@@ -124,14 +135,6 @@ app.post('/', upload.single('image'), (req, res, next) => {
               data: fs.readFileSync(path.join(__dirname + '/public/img/' + req.file.filename)),
               contentType: 'image/png'
           }
-      }
-    }else{
-      var obj = {
-          timeStamp: current,
-          timePeriod: req.body.timePeriod,
-          oneTimeOnly: defaultOneTimeValue,
-          name: req.body.name,
-          desc: req.body.desc
       }
     }
     ImgModel.create(obj, (err, item) => {
@@ -194,55 +197,56 @@ app.get("/:postId", function(req, res){
       console.log(err);
 //      console.log(img.img.data!=="");//if it is not null, it means we have pic in this record.
 //      console.log(img.hasOwnProperty('oneTimeOnly'));
-//      console.log(img);
+      console.log(img);
       if(!err && img.length!==0){
-        if(img.img.data!==""  && img.oneTimeOnly=='n'){
-          res.render("post", {
-            title: img.name,
-            content: img.desc,
-            image:img,
-            _id: img._id
-            });
-        }
-        else{
-            if(img.img.data!=="" && img.oneTimeOnly=='oneTime'){
-            //has image, but need to remove this collection.
+        if(typeof img.img.data === 'undefined'){
+          console.log("without pics");
+          if(img.oneTimeOnly == "oneTime"){
+            res.render("postNoImg", {
+              title: img.name,
+              content: img.desc,
+              _id: "This is one time reading. The record is removed."
+              });
             ImgModel.findByIdAndRemove(img._id, function(err) {
               if (err) {
                 console.log(err);
               } else {
-                res.render("post", {
-                  title: img.name,
-                  content: img.desc,
-                  image:img,
-                  _id: "This is one time reading. The record is removed."
-                  });
+                ;
               }
             });
-          }else{//no image
-            if(img.oneTimeOnly == "oneTime"){
-              res.render("postNoImg", {
-                title: img.name,
-                content: img.desc,
-                _id: "This is one time reading. The record is removed."
-                });
+          }
+          else{
+            res.render("postNoImg", {
+              title: img.name,
+              content: img.desc,
+              _id: img._id
+              });
+          }
+        }else{
+          console.log("with pics");
+          if(img.oneTimeOnly=='n'){
+            res.render("post", {
+              title: img.name,
+              content: img.desc,
+              image:img,
+              _id: img._id
+              });
+          }else{
+              //has image, but need to remove this collection.
               ImgModel.findByIdAndRemove(img._id, function(err) {
                 if (err) {
                   console.log(err);
                 } else {
-                  ;
+                  res.render("post", {
+                    title: img.name,
+                    content: img.desc,
+                    image:img,
+                    _id: "This is one time reading. The record is removed."
+                    });
                 }
               });
-            }
-            else{
-              res.render("postNoImg", {
-                title: img.name,
-                content: img.desc,
-                _id: img._id
-                });
-            }
-
           }
+
         }
       }
     })
