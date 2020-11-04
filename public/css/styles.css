@@ -69,7 +69,9 @@ img{
   color: RGB(184, 58, 28);
 }
 
-
+button{
+  margin-top: 2px;
+}
 
 input.switch:empty
 {

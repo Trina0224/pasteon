@@ -21,7 +21,7 @@ const homeStartingContent = "Click the link below and copy-paste anythin you wan
 const aboutContent = "aboutContent";
 const contactContent = "The photo only accept less than 16MB, if you upload a photo which is larger than 16MB, you will lost it. The system will delete this file after a while. Please download it in the grace period.";
 const errorContent = "The page already removed because expired or wrong link address. You could go back to homepage and reuse this link.";
-let homeStartingImportantMsg = "error or warning messages here!";
+let homeStartingImportantMsg = "";
 //let thisInputIsValid = false;
 
 const app = express();
@@ -155,7 +155,7 @@ app.post('/', upload.single('image'), (req, res, next) => {
           if (img) {
             homeStartingImportantMsg = "The link already be taken.";
           } else {
-            homeStartingImportantMsg = "memorizing...";
+            homeStartingImportantMsg = "";
             //thisInputIsValid = true;
             let current = new Date().getTime();
             let defaultOneTimeValue = "";
