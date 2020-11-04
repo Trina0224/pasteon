@@ -12,6 +12,8 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 
+const cron = require('node-cron');
+
 const PORT = process.env.PORT || 3000;
 
 
@@ -85,6 +87,20 @@ const multerFilter = (req, file, cb) => { //jpeg...
 const upload = multer({ storage: storage, fileFilter: multerFilter});
 
 ///////////////////////////////////////////////////////////////////////////////
+//Cron setup
+//   * * * * * *
+//   | | | | | |
+//   | | | | | day of week
+//   | | | | month
+//   | | | day of month
+//   | | hour
+//   | minute
+//   second ( optional )
+// Schedule tasks to be run on the server.
+cron.schedule('* * * * *', myCronJob);//five * means per minute.
+
+
+
 // Retriving the image
 app.get("/", function(req, res){
   ImgModel.find({}, (err, items) => {
@@ -100,6 +116,7 @@ app.get("/", function(req, res){
   });
 
 });
+
 
 
 
@@ -186,7 +203,61 @@ app.post("/remove", function(req, res){
 
 });
 
+function myCronJob(){
+  //console.log("Running cron job to remove data.");
+  let current= new Date().getTime();// get current timestamp.
+  //retrive all database
+  ImgModel.find({}, (err, items) => {
+      if (err) {
+          console.log(err);
+      }
+      else {
+        //items is an array.
+          items.forEach(function(image) {
+            //console.log(typeof image.timeStamp);
+            //console.log(image.timePeriod);
+            let shouldItBeDeleted = false;
+            let t1 = 1*current-1*(image.timeStamp);
+            switch(image.timePeriod) {
+              case "oneMins":
+                // code block
+                //console.log(t1.toString(10));
+                shouldItBeDeleted = (t1 >= 60000) ? true : false;
+                //console.log(shouldItBeDeleted);
+              break;
+              case "twoMins":
+                shouldItBeDeleted = (t1 >= 120000) ? true : false;
+              break;
+              case "fiveMins":
+                shouldItBeDeleted = (t1 >= 300000) ? true : false;
+              break;
+              case "twoDays":
+                shouldItBeDeleted = (t1 >= 172800000) ? true : false;
+              break;
+              default:
+                ;// code block
+            }
+            //remove this record?
+            if(shouldItBeDeleted){
+              ImgModel.findByIdAndRemove(image._id, function(err) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log(`"Record: ${image._id} deleted."`);
+                }
+              });
 
+            }else{
+              ;
+            }
+
+
+          });
+
+      }
+  });
+
+}
 
 app.get("/:postId", function(req, res){
   //const requestedTitle = _.lowerCase(req.params.postName);
