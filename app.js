@@ -24,7 +24,8 @@ const contactContent = "The photo only accept less than 16MB, if you upload a ph
 const errorContent = "The page already removed because expired or wrong link address. You could go back to homepage and reuse this link.";
 let homeStartingImportantMsg = "";
 //let thisInputIsValid = false;
-let homeqrcodeURL = "./public/img/myhost.png";
+const myOriginalPngFile = "https://github.com/Trina0224/pasteon/blob/main/public/img/myhost.png?raw=true";
+let homeqrcodeURL = myOriginalPngFile;
 
 const app = express();
 
@@ -235,6 +236,7 @@ app.post("/remove", function(req, res) {
     if (err) {
       console.log(err);
     } else {
+      homeqrcodeURL = myOriginalPngFile;//change back to original QRCODE.
       res.redirect("/");
     }
   });
@@ -280,6 +282,7 @@ function myCronJob() {
             if (err) {
               console.log(err);
             } else {
+
               console.log(`"Record: ${image._id} deleted."`);
             }
           });
@@ -321,7 +324,7 @@ app.get("/:postId", function(req, res) {
               if (err) {
                 console.log(err);
               } else {
-                ;
+                homeqrcodeURL = myOriginalPngFile;//change back to original QRCODE.
               }
             });
           } else {
@@ -346,6 +349,8 @@ app.get("/:postId", function(req, res) {
               if (err) {
                 console.log(err);
               } else {
+                homeqrcodeURL = myOriginalPngFile;//change back to original QRCODE.
+
                 res.render("post", {
                   title: img.name,
                   content: img.desc,

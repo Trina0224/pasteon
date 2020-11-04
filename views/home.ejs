@@ -8,7 +8,7 @@
         <form action="/" method="POST" enctype="multipart/form-data">
             <div>
                 <label for="name">https://pasteon.xyz/</label>
-                <input type="text" id="name" placeholder="Name"
+                <input type="text" id="name" placeholder="link"
                        value="" name="name" required>
             </div>
             <div>
@@ -43,14 +43,14 @@
                        name="image" value="" >
             </div>
             <div>
-                <button type="submit">Submit</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
                 <p class="importantMessage"> <%= startingImportantMsg %></p>
             </div>
         </form>
     </div>
 
     <hr>
-    <img src=<%= qrcodeURL %>  />
+    <img class="qrcode" src=<%= qrcodeURL %>  /> <p>QRCode to the one you submitted</p>
     <!-- <h1>Uplaoded Images</h1>
     <div>
         <% items.forEach(function(image) { %>

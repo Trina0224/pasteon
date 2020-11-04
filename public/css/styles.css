@@ -73,6 +73,12 @@ button{
   margin-top: 2px;
 }
 
+
+.qrcode{
+  width: 150px;
+}
+
+
 input.switch:empty
 {
 	margin-left: -999px;
