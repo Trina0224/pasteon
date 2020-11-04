@@ -14,7 +14,7 @@
             <div>
                 <label for="desc">Description</label>
                 <textarea id="desc" name="desc" value="" rows="2"
-                           required>
+                           >
                 </textarea>
             </div>
             <div >
@@ -29,7 +29,7 @@
             <div>
               <input type="hidden" id="gracePeriodCheck" name="oneTimeOnly" value="nn" >
               <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked >
-              <label for="oneTimeOnly"> Remove it after Read.</label><br>
+              <label for="oneTimeOnly"> Remove it after Read.(Be Careful! Read it in the grace period.)</label><br>
             </div>
 
             <!-- <div>
@@ -44,6 +44,7 @@
             </div>
             <div>
                 <button type="submit">Submit</button>
+                <p class="importantMessage"> <%= startingImportantMsg %></p>
             </div>
         </form>
     </div>

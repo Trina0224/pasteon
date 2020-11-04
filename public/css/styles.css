@@ -65,6 +65,12 @@ img{
    display:none;
 }
 
+.importantMessage{
+  color: RGB(184, 58, 28);
+}
+
+
+
 input.switch:empty
 {
 	margin-left: -999px;
