@@ -13,6 +13,7 @@ const path = require('path');
 const multer = require('multer');
 
 const cron = require('node-cron');
+const qrcode = require('qrcode');
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,6 +24,7 @@ const contactContent = "The photo only accept less than 16MB, if you upload a ph
 const errorContent = "The page already removed because expired or wrong link address. You could go back to homepage and reuse this link.";
 let homeStartingImportantMsg = "";
 //let thisInputIsValid = false;
+let homeqrcodeURL = "./public/img/myhost.png";
 
 const app = express();
 
@@ -108,7 +110,6 @@ const upload = multer({
 cron.schedule('* * * * *', myCronJob); //five * means per minute.
 
 
-
 // Retriving the image
 app.get("/", function(req, res) {
   ImgModel.find({}, (err, items) => {
@@ -118,7 +119,8 @@ app.get("/", function(req, res) {
       res.render("home", {
         startingContent: homeStartingContent,
         items: items,
-        startingImportantMsg: homeStartingImportantMsg
+        startingImportantMsg: homeStartingImportantMsg,
+        qrcodeURL: homeqrcodeURL
       });
     }
   });
@@ -198,14 +200,18 @@ app.post('/', upload.single('image'), (req, res, next) => {
             } catch(err) {
               console.error(err)
             }
+            //Create a QRCODE for this hyperlink.
+            const res = qrcode.toDataURL('https://posteon.xyz/'+req.body.name, function (err, url) {
+              console.log(url);
+              homeqrcodeURL = url;
 
-          }
-        } else {
-          console.log(err);
-        }
+            });
 
-      });
-  }
+    }
+  }//end if
+});//end findone funciton.
+
+  }//end of switch
   res.redirect('/');
 
 });
