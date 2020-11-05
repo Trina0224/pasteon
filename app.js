@@ -164,7 +164,7 @@ app.post('/', upload.single('image'), (req, res, next) => {
             let defaultOneTimeValue = "";
             //    defaultOneTimeValue = req.body['oneTimeOnly'];
             defaultOneTimeValue = req.body.oneTimeOnly[1]; //if checked, you will get oneTime, if no, get 'n'
-            console.log(defaultOneTimeValue);
+            //console.log(defaultOneTimeValue);
             if (typeof req.file === 'undefined') {
               var obj = {
                 timeStamp: current,
@@ -203,7 +203,7 @@ app.post('/', upload.single('image'), (req, res, next) => {
             }
             //Create a QRCODE for this hyperlink.
             const res = qrcode.toDataURL('https://posteon.xyz/'+req.body.name, function (err, url) {
-              console.log(url);
+              //console.log(url);
               homeqrcodeURL = url;
 
             });
@@ -231,7 +231,7 @@ app.get("/contact", function(req, res) {
 });
 
 app.post("/remove", function(req, res) {
-  console.log(req.body.postBody);
+  //console.log(req.body.postBody);
   ImgModel.findByIdAndRemove(req.body.postBody, function(err) {
     if (err) {
       console.log(err);
@@ -283,7 +283,7 @@ function myCronJob() {
               console.log(err);
             } else {
 
-              console.log(`"Record: ${image._id} deleted."`);
+              console.log(`"Record: ${image._id} deleted. at ${current}"`);
             }
           });
 
@@ -310,10 +310,10 @@ app.get("/:postId", function(req, res) {
       console.log(err);
       //      console.log(img.img.data!=="");//if it is not null, it means we have pic in this record.
       //      console.log(img.hasOwnProperty('oneTimeOnly'));
-      console.log(img);
+      //console.log(img);
       if (!err && img.length !== 0) {
         if (typeof img.img.data === 'undefined') {
-          console.log("without pics");
+          //console.log("without pics");
           if (img.oneTimeOnly == "oneTime") {
             res.render("postNoImg", {
               title: img.name,
@@ -335,7 +335,7 @@ app.get("/:postId", function(req, res) {
             });
           }
         } else {
-          console.log("with pics");
+          //console.log("with pics");
           if (img.oneTimeOnly == 'n') {
             res.render("post", {
               title: img.name,

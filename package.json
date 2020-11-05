@@ -6,8 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "kozakura Yuua",
   "license": "ISC",
+  "engines": {
+    "node": "12.18.0"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "dotenv": "^8.2.0",
