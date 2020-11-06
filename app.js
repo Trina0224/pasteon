@@ -206,8 +206,8 @@ app.post('/', upload.single('image'), (req, res, next) => {
               console.error(err)
             }
             //Create a QRCODE for this hyperlink.
-            const res = qrcode.toDataURL('https://www.pasteon.xyz/'+req.body.name, function (err, url) {
-            //const res = qrcode.toDataURL('https://www.pasteon.xyz/', function (err, url) {
+            const res = qrcode.toDataURL('www.pasteon.xyz/'+req.body.name, function (err, url) {
+            //const res = qrcode.toDataURL('www.pasteon.xyz/', function (err, url) {
               //console.log(url);
               homeqrcodeURL = url;
 
