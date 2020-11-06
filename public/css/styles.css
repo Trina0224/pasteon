@@ -1,6 +1,10 @@
 /* Colors: #dee4e1,#7c807b,#b83a1c,#15100c
 or,
-RGB(222, 228, 225), RGB(124, 128, 123), RGB(184, 58, 28), RGB(21, 16, 12)   */
+RGB(222, 228, 225), RGB(124, 128, 123), RGB(184, 58, 28), RGB(21, 16, 12)
+
+or
+#222831, #393e46, #00adb5, #eeeeee
+*/
 
 html {
   min-height: 100%;
@@ -24,6 +28,7 @@ html {
 .navbar-nav  li a:hover {
     /* color: #1abc9c !important; */
     color: RGB(21, 16, 12);
+
 }
 
 .footer-padding {
@@ -38,6 +43,7 @@ html {
 	height: 60px;
 	/* background-color: #1abc9c; */
   background-color: RGB(21, 16, 12);
+
 }
 
 .footer p {
@@ -77,6 +83,35 @@ button{
 .qrcode{
   width: 150px;
 }
+
+.left {
+  width: 50%;
+}
+
+.right {
+  width: 50%;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
 
 
 input.switch:empty

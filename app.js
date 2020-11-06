@@ -17,14 +17,18 @@ const qrcode = require('qrcode');
 
 const PORT = process.env.PORT || 3000;
 
+const MONGODB_APP_LINK = 'mongodb+srv://admintrinaaska:01260224TrinaAska@cluster0.xexqy.mongodb.net/blogDB?retryWrites=true&w=majority'
 
-const homeStartingContent = "Click the link below and copy-paste anythin you want to keep it a while. The system will delete it after you read it or a while.";
+
+
+const homeStartingContent = "Copy-paste any text string or a photo you would like to keep it a while. The system will delete it after you read it or a while.";
 const aboutContent = "WARNING";
 const contactContent = "The photo only accept less than 16MB, if you upload a photo which is larger than 16MB, you will lost it. The system will delete this file after a while. Please download it in the grace period.";
 const errorContent = "The page already removed because expired or wrong link address. You could go back to homepage and reuse this link.";
 let homeStartingImportantMsg = "";
 //let thisInputIsValid = false;
-const myOriginalPngFile = "https://github.com/Trina0224/pasteon/blob/main/public/img/myhost.png?raw=true";
+//const myOriginalPngFile = "https://github.com/Trina0224/pasteon/blob/main/public/img/myhost.png?raw=true";
+const myOriginalPngFile = "./img/httpswww.png";
 let homeqrcodeURL = myOriginalPngFile;
 
 const app = express();
@@ -39,7 +43,7 @@ app.set('view engine', 'ejs');
 
 
 // Connecting to the database
-mongoose.connect(process.env.MONGODB_APP_LINK, {
+mongoose.connect(MONGODB_APP_LINK, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, err => {
@@ -202,7 +206,8 @@ app.post('/', upload.single('image'), (req, res, next) => {
               console.error(err)
             }
             //Create a QRCODE for this hyperlink.
-            const res = qrcode.toDataURL('https://posteon.xyz/'+req.body.name, function (err, url) {
+            const res = qrcode.toDataURL('https://www.pasteon.xyz/'+req.body.name, function (err, url) {
+            //const res = qrcode.toDataURL('https://www.pasteon.xyz/', function (err, url) {
               //console.log(url);
               homeqrcodeURL = url;
 

@@ -1,57 +1,59 @@
-
 <%- include("partials/header"); -%>
 
-     <h1>Upload Text&Image on mongoDB</h1>
-     <p> <%= startingContent %> </p>
-    <hr>
-    <div>
-        <form action="/" method="POST" enctype="multipart/form-data">
-            <div>
-                <label for="name">https://pasteon.xyz/</label>
-                <input type="text" id="name" placeholder="link"
-                       value="" name="name" required>
-            </div>
-            <div>
-                <label for="desc">Text for temp memory</label>
-                <textarea id="desc" name="desc" value="" rows="2"
-                           >
-                </textarea>
-            </div>
-            <div >
-              <label for="timePeriod">Choose a grace-period</label>
-              <select name="timePeriod" id="gracePeriod">
-                <option value="oneMins">1 mins</option>
-                <option value="twoMins">2 mins</option>
-                <option value="fiveMins">5 mins</option>
-                <option value="twoDays">2 Days</option>
-              </select>
-            </div>
-            <div>
-              <input type="hidden" id="gracePeriodCheck" name="oneTimeOnly" value="nn" >
-              <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked >
-              <label for="oneTimeOnly"> Remove it after Read.(Be Careful! Read it in the grace period.)</label><br>
-            </div>
+<h1>Help me keep something...</h1>
+<p> <%= startingContent %> </p>
+<hr>
+<div class="row">
 
-            <!-- <div>
+  <div class="column left">
+    <form action="/" method="POST" enctype="multipart/form-data">
+      <div>
+        <label for="name">https://www.pasteon.xyz/</label>
+        <input type="text" id="name" placeholder="link" value="" name="name" required>
+      </div>
+      <div>
+        <label for="desc">Text for temp memory</label>
+        <textarea id="desc" name="desc" value="" rows="2">
+                </textarea>
+      </div>
+      <div>
+        <label for="timePeriod">Choose a grace-period</label>
+        <select name="timePeriod" id="gracePeriod">
+          <option value="oneMins">1 mins</option>
+          <option value="twoMins">2 mins</option>
+          <option value="fiveMins">5 mins</option>
+          <option value="twoDays">2 Days</option>
+        </select>
+      </div>
+      <div>
+        <input type="hidden" id="gracePeriodCheck" name="oneTimeOnly" value="nn">
+        <input type="checkbox" id="gracePeriodCheck" name="oneTimeOnly" value="oneTime" checked>
+        <label for="oneTimeOnly"> Remove it after Read.(Be Careful! Read it in the grace period.)</label><br>
+      </div>
+
+      <!-- <div>
             	<input type="checkbox" id="switch1" name="switch1" class="switch" />
             	<label for="switch1">first switch</label>
             </div> -->
 
-            <div>
-                <label for="image">Upload  an image (If you have)</label>
-                <input type="file" id="image"
-                       name="image" value="" >
-            </div>
-            <div>
-                <button class="btn btn-primary" type="submit">Submit</button>
-                <p class="importantMessage"> <%= startingImportantMsg %></p>
-            </div>
-        </form>
-    </div>
+      <div>
+        <label for="image">Upload an image (If you have)</label>
+        <input type="file" id="image" name="image" value="">
+      </div>
+      <div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <p class="importantMessage"> <%= startingImportantMsg %></p>
+      </div>
+    </form>
+  </div>
+  <div class="column right">
+    <img class="qrcode" src=<%= qrcodeURL %> />
+    <p>QRCode to the one you submitted</p>
+  </div>
+</div>
 
-    <hr>
-    <img class="qrcode" src=<%= qrcodeURL %>  /> <p>QRCode to the one you submitted</p>
-    <!-- <h1>Uplaoded Images</h1>
+<hr>
+<!-- <h1>Uplaoded Images</h1>
     <div>
         <% items.forEach(function(image) { %>
         <div>
