@@ -17,7 +17,7 @@ const qrcode = require('qrcode');
 
 const PORT = process.env.PORT || 3000;
 
-const MONGODB_APP_LINK = 'mongodb+srv://admintrinaaska:01260224TrinaAska@cluster0.xexqy.mongodb.net/blogDB?retryWrites=true&w=majority'
+//const MONGODB_APP_LINK = 'mongodb+srv://admintrinaaska:@cluster0.xexqy.mongodb.net/blogDB?retryWrites=true&w=majority'
 
 
 
